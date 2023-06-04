@@ -124,11 +124,22 @@ class _NewInitOrderState extends State<NewInitOrder> {
                 ],
               ),
               const Divider(),
-              OutlinedButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  child: const Text("Finish"))
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  OutlinedButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: const Text("Finish")),
+                  OutlinedButton(
+                      onPressed: () {
+                        combMan?.combatants?.clear();
+                        Navigator.pop(context);
+                      },
+                      child: const Text("Cancel"))
+                ],
+              )
             ],
           ),
         ],

@@ -43,6 +43,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   Future<void> newInitOrder() async {
+    combMan?.combatants?.clear();
     await showDialog(
         context: context,
         builder: (BuildContext context) => NewInitOrder(combMan: combMan));
