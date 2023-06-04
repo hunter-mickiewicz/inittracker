@@ -49,11 +49,12 @@ class _NewInitOrderState extends State<NewInitOrder> {
 
   String combName = "";
   int combInit = -1;
+  final TextEditingController _initController = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     List<Combatant>? combatants = combMan?.combatants;
-    var _controller = TextEditingController();
 
     return Dialog(
       child: ListView(
@@ -82,7 +83,7 @@ class _NewInitOrderState extends State<NewInitOrder> {
                 children: [
                   Expanded(
                     child: TextField(
-                      //controller: _controller,
+                      controller: _nameController,
                       decoration: const InputDecoration(
                         border: OutlineInputBorder(),
                         label: Text("Combatant"),
@@ -96,7 +97,7 @@ class _NewInitOrderState extends State<NewInitOrder> {
                   ),
                   Expanded(
                     child: TextField(
-                      //controller: _controller,
+                      controller: _initController,
                       decoration: const InputDecoration(
                           border: OutlineInputBorder(),
                           label: Text("Initiative")),
@@ -113,7 +114,8 @@ class _NewInitOrderState extends State<NewInitOrder> {
                         Combatant newComb = Combatant(combName, combInit);
                         setState(() {
                           combMan?.addCombatant(newComb);
-                          _controller.clear();
+                          _initController.clear();
+                          _nameController.clear();
                         });
                         combName = "";
                         combInit = -1;
