@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import 'combatant.dart';
 
+// ignore: must_be_immutable
 class CombatantInfo extends StatefulWidget {
   CombatantInfo({super.key, required this.comb});
   Combatant? comb;
@@ -15,6 +16,6 @@ class CombatantInfo extends StatefulWidget {
 class _CombatantInfoState extends State<CombatantInfo> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold();
+    return const Scaffold();
   }
 }
