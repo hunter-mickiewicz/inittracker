@@ -12,6 +12,10 @@ class CombatantManager {
     combatants?.add(comb);
   }
 
+  void clearCombatants() {
+    combatants?.clear();
+  }
+
   void sortByInit() {
     for (Combatant comb in combatants!) {
       sortedByInit[comb.name] = comb.initiative;

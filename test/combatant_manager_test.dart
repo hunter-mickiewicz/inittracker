@@ -13,6 +13,12 @@ void main() {
     expect(true, combMan.combatants?.isNotEmpty);
   });
 
+  test('CombatantManager.clearCombatants() clears all combatants from list',
+      () {
+    combMan.clearCombatants();
+    expect(true, combMan.combatants?.isEmpty);
+  });
+
   test('sortByInit functions as intended', () {
     combMan.addCombatant(Combatant("Third", 10));
     combMan.addCombatant(Combatant("Fourth", 5));
