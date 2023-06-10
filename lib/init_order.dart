@@ -1,5 +1,6 @@
 // ignore_for_file: library_private_types_in_public_api, must_be_immutable
 
+// ignore: unused_import
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
@@ -104,6 +105,7 @@ class _NewInitOrderState extends State<NewInitOrder> {
                         onChanged: (init) {
                           setState(() {
                             try {
+                              // ignore: unnecessary_null_comparison
                               if (init == null) {
                                 throw ("Parse Error");
                               }
