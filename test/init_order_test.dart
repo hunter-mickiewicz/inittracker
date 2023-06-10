@@ -28,8 +28,35 @@ void main() {
     combMan.addCombatant(Combatant("CombName", 15));
     await tester.pumpWidget(NewInitOrder(combMan: combMan));
 
-    expect(find.byType(ListTile), findsOneWidget);
+    expect(find.byType(CombDisplay), findsOneWidget);
     expect(find.text("CombName"), findsOneWidget);
     expect(find.text("15"), findsOneWidget);
+  });
+
+  testWidgets('Add adds Combatant to CombatManager',
+      (WidgetTester tester) async {
+    combMan.combatants?.clear();
+    await tester.pumpWidget(NewInitOrder(combMan: combMan));
+    await tester.tap(find.text("Add"));
+
+    expect(true, combMan.combatants?.isNotEmpty);
+  });
+
+  testWidgets('Cancel removes Combatants from CombatantManager',
+      (WidgetTester tester) async {
+    combMan.addCombatant(Combatant("CombName", 15));
+    await tester.pumpWidget(NewInitOrder(combMan: combMan));
+    await tester.tap(find.text("Cancel"));
+
+    expect(true, combMan.combatants?.isEmpty);
+  });
+
+  testWidgets('Finish retains Combatants on CombatantManager',
+      (WidgetTester tester) async {
+    combMan.addCombatant(Combatant("CombName", 15));
+    await tester.pumpWidget(NewInitOrder(combMan: combMan));
+    await tester.tap(find.text("Finish"));
+
+    expect(true, combMan.combatants?.isNotEmpty);
   });
 }

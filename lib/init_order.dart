@@ -63,6 +63,9 @@ class _NewInitOrderState extends State<NewInitOrder> {
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                const Text("Add New Combatants",
+                    style: TextStyle(fontSize: 16)),
+                const Text(""),
                 if (combatants != null)
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
