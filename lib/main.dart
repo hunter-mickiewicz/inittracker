@@ -60,7 +60,14 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            //if (combMan!.combatants!.isNotEmpty)
+            if (combMan!.combatants!.isNotEmpty)
+              OutlinedButton(
+                  onPressed: () {
+                    setState(() {
+                      combMan!.clearCombatants();
+                    });
+                  },
+                  child: const Text("Clear Initiative")),
             OutlinedButton(
                 onPressed: () {
                   newInitOrder();
