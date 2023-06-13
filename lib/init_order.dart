@@ -168,6 +168,7 @@ class _NewInitOrderState extends State<NewInitOrder> {
                     OutlinedButton(
                         onPressed: () {
                           combMan!.sortByInit();
+                          combMan?.combatants?.clear();
                           Navigator.of(context, rootNavigator: true).pop();
                         },
                         child: const Text("Finish")),

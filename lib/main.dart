@@ -3,6 +3,8 @@
 import 'package:flutter/material.dart';
 import 'package:init_tracker/combatant_manager.dart';
 
+import 'combatant.dart';
+import 'combatant_info.dart';
 import 'init_order.dart';
 
 CombatantManager? combMan;
@@ -60,14 +62,8 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            if (combMan!.combatants!.isNotEmpty)
-              OutlinedButton(
-                  onPressed: () {
-                    setState(() {
-                      combMan!.clearCombatants();
-                    });
-                  },
-                  child: const Text("Clear Initiative")),
+            if (combMan!.sortedByInit.isNotEmpty)
+              CombatantInfo(combMan: combMan),
             OutlinedButton(
                 onPressed: () {
                   newInitOrder();
