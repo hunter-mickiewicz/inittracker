@@ -20,18 +20,18 @@ class _CombatantInfoState extends State<CombatantInfo> {
 
   CombatantManager? combMan;
 
+  //displays highCombatant for first in map, as well as buttons
+  void combType(Combatant cb) {
+    if (combMan?.combatants?[0] == cb) {
+      //LowCombatant(cb: cb);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        for (var cb in combMan!.sortedByInit.entries)
-          Card(
-              elevation: 10,
-              color: Colors.lightGreen,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [Text(cb.key), Text(cb.value.toString())],
-              )),
+        for (var cb in combMan!.sortedByInit.entries) LowCombatant(cb: cb),
         OutlinedButton(
             onPressed: () {
               setState(() {
@@ -41,5 +41,27 @@ class _CombatantInfoState extends State<CombatantInfo> {
             child: const Text("Clear Initiative")),
       ],
     );
+  }
+}
+
+class LowCombatant extends StatelessWidget {
+  const LowCombatant({
+    super.key,
+    required this.cb,
+  });
+
+  final MapEntry<String, Combatant> cb;
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+        elevation: 10,
+        color: Colors.lightGreen,
+        child: ListTile(
+          leading: Text(cb.key),
+          title: Text(cb.value.initiative.toString()),
+          subtitle: Text("Initiative: ${cb.value.initiative}"),
+          trailing: Text("trailing"),
+        ));
   }
 }

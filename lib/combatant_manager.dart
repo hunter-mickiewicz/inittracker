@@ -2,7 +2,7 @@ import 'package:init_tracker/combatant.dart';
 
 class CombatantManager {
   List<Combatant>? combatants;
-  Map<String, int> sortedByInit = {};
+  Map<String, Combatant> sortedByInit = {};
 
   CombatantManager() {
     combatants = <Combatant>[];
@@ -22,10 +22,10 @@ class CombatantManager {
 
   void sortByInit() {
     for (Combatant comb in combatants!) {
-      sortedByInit[comb.name] = comb.initiative;
+      sortedByInit[comb.name] = comb;
     }
 
     sortedByInit = Map.fromEntries(sortedByInit.entries.toList()
-      ..sort((e2, e1) => e1.value.compareTo(e2.value)));
+      ..sort((e2, e1) => e1.value.initiative.compareTo(e2.value.initiative)));
   }
 }
