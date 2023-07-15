@@ -1,5 +1,7 @@
 //This is the class which will display combatant info on the main page
 
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 
 import 'combatant.dart';
@@ -21,17 +23,29 @@ class _CombatantInfoState extends State<CombatantInfo> {
   CombatantManager? combMan;
 
   //displays highCombatant for first in map, as well as buttons
-  void combType(Combatant cb) {
-    if (combMan?.combatants?[0] == cb) {
-      //LowCombatant(cb: cb);
+  Widget combType(MapEntry<String, Combatant> cb, int i) {
+    if (i == 0) {
+      return LowCombatant(cb: cb);
+    } else {
+      return LowCombatant(cb: cb);
     }
+  }
+
+  Widget displayCombatants() {
+    int i = 0;
+
+    return SizedBox(
+        child: Column(children: [
+      for (var cb in combMan!.sortedByInit.entries) combType(cb, i++)
+    ]));
   }
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        for (var cb in combMan!.sortedByInit.entries) LowCombatant(cb: cb),
+        displayCombatants(),
+        //for (var cb in combMan!.sortedByInit.entries) LowCombatant(cb: cb),
         OutlinedButton(
             onPressed: () {
               setState(() {
@@ -39,6 +53,7 @@ class _CombatantInfoState extends State<CombatantInfo> {
               });
             },
             child: const Text("Clear Initiative")),
+        OutlinedButton(onPressed: () {}, child: const Text("Next"))
       ],
     );
   }
@@ -54,14 +69,19 @@ class LowCombatant extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-        elevation: 10,
-        color: Colors.lightGreen,
-        child: ListTile(
-          leading: Text(cb.key),
-          title: Text(cb.value.initiative.toString()),
-          subtitle: Text("Initiative: ${cb.value.initiative}"),
-          trailing: Text("trailing"),
-        ));
+    //return MaterialApp(home: Builder(builder: (BuildContext context) {
+    return SizedBox(
+        //This is potentially something that needs fixing since it's a static
+        height: 60,
+        child: Card(
+            elevation: 10,
+            color: Colors.lightGreen,
+            child: ListTile(
+              leading: Text(cb.key),
+              title: Text(cb.value.initiative.toString()),
+              subtitle: Text("Initiative: ${cb.value.initiative}"),
+              //trailing: Text("trailing"),
+            )));
+    //}));
   }
 }
