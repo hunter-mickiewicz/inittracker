@@ -3,7 +3,6 @@
 import 'package:flutter/material.dart';
 import 'package:init_tracker/combatant_manager.dart';
 
-import 'combatant.dart';
 import 'combatant_info.dart';
 import 'init_order.dart';
 
