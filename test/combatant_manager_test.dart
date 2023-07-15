@@ -28,7 +28,8 @@ void main() {
 
     combMan.sortByInit();
 
-    expect("{First: 20, Second: 15, Third: 10, Fourth: 5, Fifth: 1}",
+    expect(
+        "{First: Instance of 'Combatant', Second: Instance of 'Combatant', Third: Instance of 'Combatant', Fourth: Instance of 'Combatant', Fifth: Instance of 'Combatant'}",
         combMan.sortedByInit.toString());
   });
 }

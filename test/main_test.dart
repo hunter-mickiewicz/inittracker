@@ -6,6 +6,7 @@ void main() {
   testWidgets('Structure exists', (WidgetTester tester) async {
     await tester.pumpWidget(const MyApp());
 
+    //MyApp() does not create the CombMan
     expect(find.text("New Initiative Order"), findsOneWidget);
   });
 

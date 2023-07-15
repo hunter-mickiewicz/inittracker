@@ -57,6 +57,6 @@ void main() {
     await tester.pumpWidget(NewInitOrder(combMan: combMan));
     await tester.tap(find.text("Finish"));
 
-    expect(true, combMan.combatants?.isNotEmpty);
+    expect(true, combMan.sortedByInit.isNotEmpty);
   });
 }
