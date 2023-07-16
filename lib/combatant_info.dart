@@ -1,5 +1,7 @@
 //This is the class which will display combatant info on the main page
 
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 
 import 'combatant.dart';
@@ -51,7 +53,19 @@ class _CombatantInfoState extends State<CombatantInfo> {
               });
             },
             child: const Text("Clear Initiative")),
-        OutlinedButton(onPressed: () {}, child: const Text("Next"))
+        OutlinedButton(
+            onPressed: () {
+              MapEntry<String, Combatant> topComb =
+                  combMan?.sortedByInit.entries.elementAt(0)
+                      as MapEntry<String, Combatant>;
+
+              combMan?.sortedByInit.remove(topComb.key);
+
+              setState(() {
+                combMan?.sortedByInit[topComb.key] = topComb.value;
+              });
+            },
+            child: const Text("Next"))
       ],
     );
   }
@@ -67,10 +81,10 @@ class HighCombatant extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-        height: 80,
+        height: 100,
         child: Card(
-            elevation: 10,
-            color: const Color.fromARGB(255, 89, 126, 48),
+            elevation: 30,
+            color: const Color.fromRGBO(120, 175, 54, 1),
             child: ListTile(
               leading: Text(cb.key),
               title: Text(cb.value.initiative.toString()),
@@ -93,7 +107,7 @@ class LowCombatant extends StatelessWidget {
         height: 60,
         child: Card(
             elevation: 10,
-            color: Colors.lightGreen,
+            color: const Color.fromRGBO(139, 195, 74, 1),
             child: ListTile(
               leading: Text(cb.key),
               title: Text(cb.value.initiative.toString()),

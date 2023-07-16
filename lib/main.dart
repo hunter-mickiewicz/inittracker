@@ -13,7 +13,9 @@ void main() {
   runApp(const MyApp());
 }
 
-void init() {}
+void init() {
+  combMan = CombatantManager();
+}
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -21,8 +23,6 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    combMan = CombatantManager();
-
     return MaterialApp(
       title: 'Initiative Tracker',
       theme: ThemeData(
