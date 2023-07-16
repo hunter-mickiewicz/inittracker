@@ -23,7 +23,7 @@ class _CombatantInfoState extends State<CombatantInfo> {
   //displays highCombatant for first in map, as well as buttons
   Widget combType(MapEntry<String, Combatant> cb, int i) {
     if (i == 0) {
-      return LowCombatant(cb: cb);
+      return HighCombatant(cb: cb);
     } else {
       return LowCombatant(cb: cb);
     }
@@ -57,6 +57,28 @@ class _CombatantInfoState extends State<CombatantInfo> {
   }
 }
 
+class HighCombatant extends StatelessWidget {
+  const HighCombatant({
+    super.key,
+    required this.cb,
+  });
+  final MapEntry<String, Combatant> cb;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+        height: 80,
+        child: Card(
+            elevation: 10,
+            color: const Color.fromARGB(255, 89, 126, 48),
+            child: ListTile(
+              leading: Text(cb.key),
+              title: Text(cb.value.initiative.toString()),
+              subtitle: Text("Initiative: ${cb.value.initiative}"),
+            )));
+  }
+}
+
 class LowCombatant extends StatelessWidget {
   const LowCombatant({
     super.key,
@@ -67,9 +89,7 @@ class LowCombatant extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //return MaterialApp(home: Builder(builder: (BuildContext context) {
     return SizedBox(
-        //This is potentially something that needs fixing since it's a static
         height: 60,
         child: Card(
             elevation: 10,
@@ -78,8 +98,6 @@ class LowCombatant extends StatelessWidget {
               leading: Text(cb.key),
               title: Text(cb.value.initiative.toString()),
               subtitle: Text("Initiative: ${cb.value.initiative}"),
-              //trailing: Text("trailing"),
             )));
-    //}));
   }
 }
