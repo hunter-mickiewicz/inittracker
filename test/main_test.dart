@@ -1,3 +1,5 @@
+// ignore_for_file: unused_import
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:init_tracker/init_order.dart';
 import 'package:init_tracker/main.dart';
