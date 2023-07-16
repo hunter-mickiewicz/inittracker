@@ -1,5 +1,7 @@
 //This is the class which will display combatant info on the main page
 
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 
 import 'combatant.dart';
@@ -49,26 +51,28 @@ class _CombatantInfoState extends State<CombatantInfo> {
           //for (var cb in combMan!.sortedByInit.entries) LowCombatant(cb: cb),
           Column(
             children: [
-              OutlinedButton(
-                  onPressed: () {
-                    setState(() {
-                      combMan!.clearSorted();
-                    });
-                  },
-                  child: const Text("Clear Initiative")),
-              OutlinedButton(
-                  onPressed: () {
-                    MapEntry<String, Combatant> topComb =
-                        combMan?.sortedByInit.entries.elementAt(0)
-                            as MapEntry<String, Combatant>;
+              if (combMan!.sortedByInit.isNotEmpty)
+                OutlinedButton(
+                    onPressed: () {
+                      setState(() {
+                        combMan!.clearSorted();
+                      });
+                    },
+                    child: const Text("Clear Initiative")),
+              if (combMan!.sortedByInit.isNotEmpty)
+                OutlinedButton(
+                    onPressed: () {
+                      MapEntry<String, Combatant> topComb =
+                          combMan?.sortedByInit.entries.elementAt(0)
+                              as MapEntry<String, Combatant>;
 
-                    combMan?.sortedByInit.remove(topComb.key);
+                      combMan?.sortedByInit.remove(topComb.key);
 
-                    setState(() {
-                      combMan?.sortedByInit[topComb.key] = topComb.value;
-                    });
-                  },
-                  child: const Text("Next")),
+                      setState(() {
+                        combMan?.sortedByInit[topComb.key] = topComb.value;
+                      });
+                    },
+                    child: const Text("Next")),
             ],
           )
         ],
@@ -111,6 +115,7 @@ class LowCombatant extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
         height: 60,
+        width: 200,
         child: Card(
             elevation: 10,
             color: const Color.fromRGBO(139, 195, 74, 1),
@@ -118,6 +123,7 @@ class LowCombatant extends StatelessWidget {
               leading: Text(cb.key),
               title: Text(cb.value.initiative.toString()),
               subtitle: Text("Initiative: ${cb.value.initiative}"),
+              onTap: () {},
             )));
   }
 }

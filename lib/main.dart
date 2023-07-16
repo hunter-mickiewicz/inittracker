@@ -61,13 +61,12 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            if (combMan!.sortedByInit.isNotEmpty)
-              CombatantInfo(combMan: combMan),
+            CombatantInfo(combMan: combMan),
             OutlinedButton(
                 onPressed: () {
                   newInitOrder();
                 },
-                child: const Text("New Initiative Order"))
+                child: const Text("Add Combatants"))
           ],
         ),
       ),
