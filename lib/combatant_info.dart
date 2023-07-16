@@ -1,5 +1,7 @@
 //This is the class which will display combatant info on the main page
 
+// ignore_for_file: unused_import
+
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
