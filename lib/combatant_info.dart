@@ -40,31 +40,34 @@ class _CombatantInfoState extends State<CombatantInfo> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        displayCombatants(),
-        //for (var cb in combMan!.sortedByInit.entries) LowCombatant(cb: cb),
-        OutlinedButton(
-            onPressed: () {
-              setState(() {
-                combMan!.clearSorted();
-              });
-            },
-            child: const Text("Clear Initiative")),
-        OutlinedButton(
-            onPressed: () {
-              MapEntry<String, Combatant> topComb =
-                  combMan?.sortedByInit.entries.elementAt(0)
-                      as MapEntry<String, Combatant>;
+    return Directionality(
+      textDirection: TextDirection.ltr,
+      child: ListView(
+        children: [
+          displayCombatants(),
+          //for (var cb in combMan!.sortedByInit.entries) LowCombatant(cb: cb),
+          OutlinedButton(
+              onPressed: () {
+                setState(() {
+                  combMan!.clearSorted();
+                });
+              },
+              child: const Text("Clear Initiative")),
+          OutlinedButton(
+              onPressed: () {
+                MapEntry<String, Combatant> topComb =
+                    combMan?.sortedByInit.entries.elementAt(0)
+                        as MapEntry<String, Combatant>;
 
-              combMan?.sortedByInit.remove(topComb.key);
+                combMan?.sortedByInit.remove(topComb.key);
 
-              setState(() {
-                combMan?.sortedByInit[topComb.key] = topComb.value;
-              });
-            },
-            child: const Text("Next"))
-      ],
+                setState(() {
+                  combMan?.sortedByInit[topComb.key] = topComb.value;
+                });
+              },
+              child: const Text("Next"))
+        ],
+      ),
     );
   }
 }
