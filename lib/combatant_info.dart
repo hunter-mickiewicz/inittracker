@@ -67,10 +67,10 @@ class _CombatantInfoState extends State<CombatantInfo> {
                   children: [
                     OutlinedButton(
                         onPressed: () {
-                          int MapLength =
+                          int mapLength =
                               combMan!.sortedByInit.entries.length - 1;
                           MapEntry<String, Combatant> bottomComb =
-                              combMan?.sortedByInit.entries.elementAt(MapLength)
+                              combMan?.sortedByInit.entries.elementAt(mapLength)
                                   as MapEntry<String, Combatant>;
 
                           combMan?.sortedByInit.remove(bottomComb.key);
