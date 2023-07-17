@@ -62,19 +62,51 @@ class _CombatantInfoState extends State<CombatantInfo> {
                     },
                     child: const Text("Clear Initiative")),
               if (combMan!.sortedByInit.isNotEmpty)
-                OutlinedButton(
-                    onPressed: () {
-                      MapEntry<String, Combatant> topComb =
-                          combMan?.sortedByInit.entries.elementAt(0)
-                              as MapEntry<String, Combatant>;
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    OutlinedButton(
+                        onPressed: () {
+                          int MapLength =
+                              combMan!.sortedByInit.entries.length - 1;
+                          MapEntry<String, Combatant> bottomComb =
+                              combMan?.sortedByInit.entries.elementAt(MapLength)
+                                  as MapEntry<String, Combatant>;
 
-                      combMan?.sortedByInit.remove(topComb.key);
+                          combMan?.sortedByInit.remove(bottomComb.key);
 
-                      setState(() {
-                        combMan?.sortedByInit[topComb.key] = topComb.value;
-                      });
-                    },
-                    child: const Text("Next")),
+                          CombatantManager newCombMan = CombatantManager();
+
+                          newCombMan.sortedByInit[bottomComb.value.name] =
+                              bottomComb.value;
+
+                          for (var cb in combMan!.sortedByInit.entries) {
+                            newCombMan.sortedByInit[cb.value.name] = cb.value;
+                          }
+
+                          combMan = newCombMan;
+
+                          setState(() {
+                            combMan?.sortedByInit[bottomComb.key] =
+                                bottomComb.value;
+                          });
+                        },
+                        child: const Text("Previous")),
+                    OutlinedButton(
+                        onPressed: () {
+                          MapEntry<String, Combatant> topComb =
+                              combMan?.sortedByInit.entries.elementAt(0)
+                                  as MapEntry<String, Combatant>;
+
+                          combMan?.sortedByInit.remove(topComb.key);
+
+                          setState(() {
+                            combMan?.sortedByInit[topComb.key] = topComb.value;
+                          });
+                        },
+                        child: const Text("Next")),
+                  ],
+                ),
             ],
           )
         ],
