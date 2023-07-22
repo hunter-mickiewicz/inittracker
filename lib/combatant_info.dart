@@ -5,6 +5,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'combatant.dart';
 import 'combatant_manager.dart';
@@ -60,7 +61,7 @@ class _CombatantInfoState extends State<CombatantInfo> {
                         combMan!.clearSorted();
                       });
                     },
-                    child: const Text("Clear Initiative")),
+                    child: const Text("End Fight")),
               if (combMan!.sortedByInit.isNotEmpty)
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -115,7 +116,139 @@ class _CombatantInfoState extends State<CombatantInfo> {
   }
 }
 
-class HighCombatant extends StatelessWidget {
+class ModifyCombatant extends StatefulWidget {
+  const ModifyCombatant({super.key, required this.cb});
+
+  final Combatant cb;
+
+  @override
+  State<ModifyCombatant> createState() => _ModifyCombatantState();
+}
+
+class _ModifyCombatantState extends State<ModifyCombatant> {
+  final TextEditingController _initController = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
+
+  String originalName = "";
+  int originalInitiative = -1;
+  String newName = "";
+  int newInitiative = -1;
+
+  @override
+  Widget build(BuildContext context) {
+    originalName == ""
+        ? originalName = widget.cb.name
+        : originalName = originalName;
+    originalInitiative == -1
+        ? originalInitiative = widget.cb.initiative
+        : originalInitiative = originalInitiative;
+
+    return Dialog(
+        child: ListView(
+            //change name
+            //change initiative
+
+            shrinkWrap: true,
+            children: [
+          SizedBox(
+            width: 200,
+            child: Column(
+              children: [
+                TextField(
+                    controller: _nameController,
+                    decoration: InputDecoration(
+                      border: const OutlineInputBorder(),
+                      label: Text("Name: $originalName"),
+                    ),
+                    onChanged: (text) {
+                      setState(() {
+                        newName = text;
+                      });
+                    }),
+                TextField(
+                    controller: _initController,
+                    decoration: InputDecoration(
+                      border: const OutlineInputBorder(),
+                      label: Text("Initiative: $originalInitiative"),
+                    ),
+                    keyboardType: TextInputType.number,
+                    onChanged: (text) {
+                      setState(() {
+                        try {
+                          // ignore: unnecessary_null_comparison
+                          if (text == null) {
+                            throw ("Parse Error");
+                          }
+                          newInitiative = int.tryParse(text)!;
+                          //Doesn't update on front page
+                        } catch (e) {
+                          showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return Dialog(
+                                    child: ListView(
+                                  shrinkWrap: true,
+                                  children: [
+                                    Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          const Text(
+                                              "Initiative must be a number!"),
+                                          OutlinedButton(
+                                              onPressed: () {
+                                                setState(() {
+                                                  _initController.clear();
+                                                  Navigator.of(context,
+                                                          rootNavigator: true)
+                                                      .pop();
+                                                });
+                                              },
+                                              child: const Text("Okay"))
+                                        ])
+                                  ],
+                                ));
+                              });
+                        }
+                      });
+                    }),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    OutlinedButton(
+                        onPressed: () {
+                          setState(() {
+                            newName == ""
+                                ? widget.cb.name = widget.cb.name
+                                : widget.cb.name = newName;
+                            newInitiative == -1
+                                ? widget.cb.initiative = widget.cb.initiative
+                                : widget.cb.initiative = newInitiative;
+                            Navigator.of(context, rootNavigator: true).pop();
+                          });
+                        },
+                        child: const Text("Confirm")),
+                    OutlinedButton(
+                        onPressed: () {
+                          setState(() {
+                            widget.cb.name = originalName;
+                            widget.cb.initiative = originalInitiative;
+                            Navigator.of(context, rootNavigator: true).pop();
+                          });
+                        },
+                        child: const Text("Cancel")),
+                  ],
+                ),
+                OutlinedButton(
+                    onPressed: () {}, child: const Text("Delete Combatant")),
+              ],
+            ),
+          )
+        ]));
+  }
+}
+
+class HighCombatant extends StatefulWidget {
   const HighCombatant({
     super.key,
     required this.cb,
@@ -123,21 +256,35 @@ class HighCombatant extends StatelessWidget {
   final MapEntry<String, Combatant> cb;
 
   @override
+  State<HighCombatant> createState() => _HighCombatantState();
+}
+
+class _HighCombatantState extends State<HighCombatant> {
+  @override
   Widget build(BuildContext context) {
     return SizedBox(
         height: 100,
         child: Card(
-            elevation: 30,
-            color: const Color.fromRGBO(120, 175, 54, 1),
-            child: ListTile(
-              leading: Text(cb.key),
-              title: Text(cb.value.initiative.toString()),
-              subtitle: Text("Initiative: ${cb.value.initiative}"),
-            )));
+          elevation: 30,
+          color: const Color.fromRGBO(120, 175, 54, 1),
+          child: ListTile(
+            leading: Text(widget.cb.key),
+            title: Text(widget.cb.value.initiative.toString()),
+            subtitle: Text("Initiative: ${widget.cb.value.initiative}"),
+            onTap: () {
+              setState(() {
+                showDialog(
+                    context: context,
+                    builder: (BuildContext context) =>
+                        ModifyCombatant(cb: widget.cb.value));
+              });
+            },
+          ),
+        ));
   }
 }
 
-class LowCombatant extends StatelessWidget {
+class LowCombatant extends StatefulWidget {
   const LowCombatant({
     super.key,
     required this.cb,
@@ -145,6 +292,11 @@ class LowCombatant extends StatelessWidget {
 
   final MapEntry<String, Combatant> cb;
 
+  @override
+  State<LowCombatant> createState() => _LowCombatantState();
+}
+
+class _LowCombatantState extends State<LowCombatant> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -154,10 +306,15 @@ class LowCombatant extends StatelessWidget {
             elevation: 10,
             color: const Color.fromRGBO(139, 195, 74, 1),
             child: ListTile(
-              leading: Text(cb.key),
-              title: Text(cb.value.initiative.toString()),
-              subtitle: Text("Initiative: ${cb.value.initiative}"),
-              onTap: () {},
+              leading: Text(widget.cb.key),
+              title: Text(widget.cb.value.initiative.toString()),
+              subtitle: Text("Initiative: ${widget.cb.value.initiative}"),
+              onTap: () {
+                showDialog(
+                    context: context,
+                    builder: (BuildContext context) =>
+                        ModifyCombatant(cb: widget.cb.value));
+              },
             )));
   }
 }
