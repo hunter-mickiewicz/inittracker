@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:init_tracker/combatant_manager.dart';
 
 import 'combatant_info.dart';
+import 'tracker_options.dart';
 import 'init_order.dart';
 
 CombatantManager? combMan;
@@ -43,33 +44,13 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  Future<void> newInitOrder() async {
-    combMan?.combatants?.clear();
-    await showDialog(
-        context: context,
-        builder: (BuildContext context) => NewInitOrder(combMan: combMan));
-    setState(() {});
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            CombatantInfo(combMan: combMan),
-            OutlinedButton(
-                onPressed: () {
-                  newInitOrder();
-                },
-                child: const Text("Add Combatants"))
-          ],
-        ),
-      ),
+      body: Center(child: TrackerOptions()),
     );
   }
 }

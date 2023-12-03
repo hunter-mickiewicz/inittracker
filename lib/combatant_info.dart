@@ -6,6 +6,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:init_tracker/main.dart';
 
 import 'combatant.dart';
 import 'combatant_manager.dart';
@@ -88,7 +89,7 @@ class _CombatantInfoState extends State<CombatantInfo> {
                           combMan = newCombMan;
 
                           setState(() {
-                            combMan?.sortedByInit[bottomComb.key] =
+                            combMan?.sortedByInit[bottomComb.value.name] =
                                 bottomComb.value;
                           });
                         },
@@ -99,10 +100,11 @@ class _CombatantInfoState extends State<CombatantInfo> {
                               combMan?.sortedByInit.entries.elementAt(0)
                                   as MapEntry<String, Combatant>;
 
-                          combMan?.sortedByInit.remove(topComb.key);
+                          combMan?.sortedByInit.remove(topComb.value.name);
 
                           setState(() {
-                            combMan?.sortedByInit[topComb.key] = topComb.value;
+                            combMan?.sortedByInit[topComb.value.name] =
+                                topComb.value;
                           });
                         },
                         child: const Text("Next")),
@@ -117,8 +119,9 @@ class _CombatantInfoState extends State<CombatantInfo> {
 }
 
 class ModifyCombatant extends StatefulWidget {
-  const ModifyCombatant({super.key, required this.cb});
+  const ModifyCombatant({super.key, required this.cb, required this.combMan});
 
+  final CombatantManager combMan;
   final Combatant cb;
 
   @override
@@ -144,107 +147,107 @@ class _ModifyCombatantState extends State<ModifyCombatant> {
         : originalInitiative = originalInitiative;
 
     return Dialog(
-        child: ListView(
-            //change name
-            //change initiative
-
-            shrinkWrap: true,
-            children: [
-          SizedBox(
-            width: 200,
-            child: Column(
-              children: [
-                TextField(
-                    controller: _nameController,
-                    decoration: InputDecoration(
-                      border: const OutlineInputBorder(),
-                      label: Text("Name: $originalName"),
-                    ),
-                    onChanged: (text) {
-                      setState(() {
-                        newName = text;
-                      });
-                    }),
-                TextField(
-                    controller: _initController,
-                    decoration: InputDecoration(
-                      border: const OutlineInputBorder(),
-                      label: Text("Initiative: $originalInitiative"),
-                    ),
-                    keyboardType: TextInputType.number,
-                    onChanged: (text) {
-                      setState(() {
-                        try {
-                          // ignore: unnecessary_null_comparison
-                          if (text == null) {
-                            throw ("Parse Error");
-                          }
-                          newInitiative = int.tryParse(text)!;
-                          //Doesn't update on front page
-                        } catch (e) {
-                          showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return Dialog(
-                                    child: ListView(
-                                  shrinkWrap: true,
-                                  children: [
-                                    Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          const Text(
-                                              "Initiative must be a number!"),
-                                          OutlinedButton(
-                                              onPressed: () {
-                                                setState(() {
-                                                  _initController.clear();
-                                                  Navigator.of(context,
-                                                          rootNavigator: true)
-                                                      .pop();
-                                                });
-                                              },
-                                              child: const Text("Okay"))
-                                        ])
-                                  ],
-                                ));
-                              });
-                        }
-                      });
-                    }),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    OutlinedButton(
-                        onPressed: () {
-                          setState(() {
-                            newName == ""
-                                ? widget.cb.name = widget.cb.name
-                                : widget.cb.name = newName;
-                            newInitiative == -1
-                                ? widget.cb.initiative = widget.cb.initiative
-                                : widget.cb.initiative = newInitiative;
-                            Navigator.of(context, rootNavigator: true).pop();
-                          });
-                        },
-                        child: const Text("Confirm")),
-                    OutlinedButton(
-                        onPressed: () {
-                          setState(() {
-                            widget.cb.name = originalName;
-                            widget.cb.initiative = originalInitiative;
-                            Navigator.of(context, rootNavigator: true).pop();
-                          });
-                        },
-                        child: const Text("Cancel")),
-                  ],
+        child: ListView(shrinkWrap: true, children: [
+      SizedBox(
+        width: 200,
+        child: Column(
+          children: [
+            TextField(
+                controller: _nameController,
+                decoration: InputDecoration(
+                  border: const OutlineInputBorder(),
+                  label: Text("Name: $originalName"),
                 ),
+                onChanged: (text) {
+                  setState(() {
+                    newName = text;
+                  });
+                }),
+            TextField(
+                controller: _initController,
+                decoration: InputDecoration(
+                  border: const OutlineInputBorder(),
+                  label: Text("Initiative: $originalInitiative"),
+                ),
+                keyboardType: TextInputType.number,
+                onChanged: (text) {
+                  setState(() {
+                    try {
+                      // ignore: unnecessary_null_comparison
+                      if (text == null) {
+                        throw ("Parse Error");
+                      }
+                      newInitiative = int.tryParse(text)!;
+                      //Doesn't update on front page
+                    } catch (e) {
+                      showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return Dialog(
+                                child: ListView(
+                              shrinkWrap: true,
+                              children: [
+                                Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      const Text(
+                                          "Initiative must be a number!"),
+                                      OutlinedButton(
+                                          onPressed: () {
+                                            setState(() {
+                                              _initController.clear();
+                                              Navigator.of(context,
+                                                      rootNavigator: true)
+                                                  .pop();
+                                            });
+                                          },
+                                          child: const Text("Okay"))
+                                    ])
+                              ],
+                            ));
+                          });
+                    }
+                  });
+                }),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
                 OutlinedButton(
-                    onPressed: () {}, child: const Text("Delete Combatant")),
+                    onPressed: () {
+                      newName == ""
+                          ? widget.cb.name = widget.cb.name
+                          : widget.cb.name = newName;
+                      newInitiative == -1
+                          ? widget.cb.initiative = widget.cb.initiative
+                          : widget.cb.initiative = newInitiative;
+                      widget.combMan.sortedByInit.remove(originalName);
+                      Navigator.of(context, rootNavigator: true).pop();
+
+                      //Removing/adding correctly
+                      setState(() {
+                        combMan?.sortedByInit[widget.cb.name] = widget.cb;
+                      });
+                      log(combMan?.sortedByInit.toString() as String);
+                    },
+                    child: const Text("Confirm")),
+                OutlinedButton(
+                    onPressed: () {
+                      setState(() {
+                        widget.cb.name = originalName;
+                        widget.cb.initiative = originalInitiative;
+                        combMan?.sortedByInit[widget.cb.name] = widget.cb;
+                        Navigator.of(context, rootNavigator: true).pop();
+                      });
+                    },
+                    child: const Text("Cancel")),
               ],
             ),
-          )
-        ]));
+            OutlinedButton(
+                onPressed: () {}, child: const Text("Delete Combatant")),
+          ],
+        ),
+      )
+    ]));
   }
 }
 
@@ -275,8 +278,10 @@ class _HighCombatantState extends State<HighCombatant> {
               setState(() {
                 showDialog(
                     context: context,
-                    builder: (BuildContext context) =>
-                        ModifyCombatant(cb: widget.cb.value));
+                    builder: (BuildContext context) => ModifyCombatant(
+                          cb: widget.cb.value,
+                          combMan: combMan as CombatantManager,
+                        ));
               });
             },
           ),
@@ -312,8 +317,10 @@ class _LowCombatantState extends State<LowCombatant> {
               onTap: () {
                 showDialog(
                     context: context,
-                    builder: (BuildContext context) =>
-                        ModifyCombatant(cb: widget.cb.value));
+                    builder: (BuildContext context) => ModifyCombatant(
+                          cb: widget.cb.value,
+                          combMan: combMan as CombatantManager,
+                        ));
               },
             )));
   }
