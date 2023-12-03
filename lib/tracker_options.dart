@@ -1,16 +1,11 @@
-import 'dart:developer';
-
 import 'init_order.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:init_tracker/main.dart';
 
-import 'combatant.dart';
-import 'combatant_manager.dart';
-
 class TrackerOptions extends StatefulWidget {
-  TrackerOptions({super.key});
+  const TrackerOptions({super.key});
 
+  @override
   State<TrackerOptions> createState() => _TrackerOptionsState();
 }
 
@@ -32,7 +27,7 @@ class _TrackerOptionsState extends State<TrackerOptions> {
             onPressed: () {
               newInitOrder();
             },
-            child: const Text("Add Combatantssssss"))
+            child: const Text("Add Combatants"))
       ],
     );
   }

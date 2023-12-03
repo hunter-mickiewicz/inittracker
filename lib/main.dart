@@ -3,9 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:init_tracker/combatant_manager.dart';
 
-import 'combatant_info.dart';
 import 'tracker_options.dart';
-import 'init_order.dart';
 
 CombatantManager? combMan;
 
@@ -50,7 +48,7 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: Center(child: TrackerOptions()),
+      body: const Center(child: TrackerOptions()),
     );
   }
 }
