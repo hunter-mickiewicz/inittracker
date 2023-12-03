@@ -27,7 +27,11 @@ class _TrackerOptionsState extends State<TrackerOptions> {
             onPressed: () {
               newInitOrder();
             },
-            child: const Text("Add Combatants"))
+            child: const Text("Add Combatants")),
+        OutlinedButton(
+          onPressed: () {},
+          child: const Text("Load Party"),
+        ),
       ],
     );
   }
